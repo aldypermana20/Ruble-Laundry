@@ -41,42 +41,16 @@ function addNotificationButton() {
     // Create notification button
     const notifBtn = document.createElement('button');
     notifBtn.id = 'notificationBtn';
+    notifBtn.className = 'floating-btn'; // Menggunakan class CSS
     notifBtn.innerHTML = '🔔 Aktifkan Notifikasi';
-    notifBtn.style.cssText = `
-        position: fixed;
-        bottom: 20px;
-        right: 20px;
-        background: linear-gradient(135deg, #3b82f6 0%, #1e40af 100%);
-        color: white;
-        border: none;
-        padding: 15px 25px;
-        border-radius: 50px;
-        font-size: 16px;
-        font-weight: 600;
-        cursor: pointer;
-        box-shadow: 0 5px 15px rgba(59, 130, 246, 0.4);
-        z-index: 1000;
-        transition: all 0.3s ease;
-    `;
-
-    notifBtn.addEventListener('mouseenter', () => {
-        notifBtn.style.transform = 'translateY(-3px)';
-        notifBtn.style.boxShadow = '0 8px 20px rgba(59, 130, 246, 0.5)';
-    });
-
-    notifBtn.addEventListener('mouseleave', () => {
-        notifBtn.style.transform = 'translateY(0)';
-        notifBtn.style.boxShadow = '0 5px 15px rgba(59, 130, 246, 0.4)';
-    });
 
     notifBtn.addEventListener('click', requestNotificationPermission);
 
     // Hide button if already granted
     if (Notification.permission === 'granted') {
         notifBtn.innerHTML = '✅ Notifikasi Aktif';
-        notifBtn.style.background = 'linear-gradient(135deg, #10b981 0%, #059669 100%)';
+        notifBtn.classList.add('active');
         notifBtn.disabled = true;
-        notifBtn.style.cursor = 'default';
     }
 
     document.body.appendChild(notifBtn);
@@ -93,9 +67,8 @@ async function requestNotificationPermission() {
             // Update button
             const btn = document.getElementById('notificationBtn');
             btn.innerHTML = '✅ Notifikasi Aktif';
-            btn.style.background = 'linear-gradient(135deg, #10b981 0%, #059669 100())';
+            btn.classList.add('active');
             btn.disabled = true;
-            btn.style.cursor = 'default';
 
             // Schedule welcome notification
             scheduleWelcomeNotification();
@@ -111,6 +84,9 @@ async function requestNotificationPermission() {
 }
 
 function showNotification(title, body, options = {}) {
+    // Tampilkan Toast di dalam aplikasi (agar selalu terlihat)
+    showToast(title, body);
+
     if (Notification.permission === 'granted') {
         const defaultOptions = {
             body: body,
@@ -134,6 +110,55 @@ function showNotification(title, body, options = {}) {
     }
 }
 
+// Fungsi baru untuk menampilkan Toast Notifikasi yang cantik
+function showToast(title, message) {
+    let container = document.getElementById('toast-container');
+    if (!container) {
+        container = document.createElement('div');
+        container.id = 'toast-container';
+        document.body.appendChild(container);
+    }
+
+    const toast = document.createElement('div');
+    toast.className = 'toast';
+    toast.style.cssText = `
+        background: white;
+        border-left: 5px solid #3b82f6;
+        padding: 15px 20px;
+        border-radius: 8px;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        min-width: 300px;
+        transform: translateX(120%);
+        transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    `;
+    
+    toast.innerHTML = `
+        <div class="toast-icon">🔔</div>
+        <div class="toast-content">
+            <h4>${title}</h4>
+            <p>${message}</p>
+        </div>
+    `;
+
+    container.appendChild(toast);
+
+    // Animasi Masuk
+    requestAnimationFrame(() => {
+        toast.style.transform = 'translateX(0)';
+    });
+
+    // Hapus otomatis setelah 5 detik
+    setTimeout(() => {
+        toast.style.transform = 'translateX(120%)';
+        setTimeout(() => {
+            toast.remove();
+        }, 400);
+    }, 5000);
+}
+
 function scheduleWelcomeNotification() {
     // Show a welcome notification after 5 seconds
     setTimeout(() => {
@@ -155,31 +180,8 @@ function addTestNotificationButton() {
     if (Notification.permission !== 'granted') return;
 
     const testBtn = document.createElement('button');
+    testBtn.className = 'test-btn'; // Menggunakan class CSS
     testBtn.innerHTML = '🧪 Test Notifikasi';
-    testBtn.style.cssText = `
-        position: fixed;
-        bottom: 80px;
-        right: 20px;
-        background: linear-gradient(135deg, #8b5cf6 0%, #6d28d9 100%);
-        color: white;
-        border: none;
-        padding: 12px 20px;
-        border-radius: 50px;
-        font-size: 14px;
-        font-weight: 600;
-        cursor: pointer;
-        box-shadow: 0 5px 15px rgba(139, 92, 246, 0.4);
-        z-index: 1000;
-        transition: all 0.3s ease;
-    `;
-
-    testBtn.addEventListener('mouseenter', () => {
-        testBtn.style.transform = 'translateY(-3px)';
-    });
-
-    testBtn.addEventListener('mouseleave', () => {
-        testBtn.style.transform = 'translateY(0)';
-    });
 
     testBtn.addEventListener('click', () => {
         const messages = [
