@@ -84,6 +84,10 @@ async function requestNotificationPermission() {
 }
 
 function showNotification(title, body, options = {}) {
+    // Putar suara kustom (Hanya bekerja jika user sudah berinteraksi dengan halaman)
+    const audio = new Audio('sounds/notification.mp3');
+    audio.play().catch(e => console.log('Gagal memutar suara (perlu interaksi user):', e));
+
     // Tampilkan Toast di dalam aplikasi (agar selalu terlihat)
     showToast(title, body);
 
@@ -93,13 +97,14 @@ function showNotification(title, body, options = {}) {
             icon: 'images/icons/icon-192x192.png',
             badge: 'images/icons/icon-192x192.png',
             vibrate: [200, 100, 200],
+            sound: 'sounds/notification.mp3', // Properti standar (dukungan browser bervariasi)
             tag: 'ruble-laundry',
             requireInteraction: false,
             ...options
         };
 
         // Use Service Worker to show notification if available
-        if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
+        if ('serviceWorker' in navigator) {
             navigator.serviceWorker.ready.then(registration => {
                 registration.showNotification(title, defaultOptions);
             });

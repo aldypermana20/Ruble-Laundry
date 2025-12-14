@@ -1,11 +1,12 @@
 const CACHE_NAME = 'ruble-laundry-v1';
 const urlsToCache = [
-    '/',
-    '/index.html',
-    '/styles.css',
-    '/app.js',
-    '/offline.html',
-    '/manifest.json'
+    '.',
+    'index.html',
+    'styles.css',
+    'app.js',
+    'offline.html',
+    'manifest.json',
+    'sounds/notification.mp3'
 ];
 
 // Install Service Worker
@@ -76,7 +77,7 @@ self.addEventListener('fetch', event => {
                     })
                     .catch(() => {
                         // If both cache and network fail, show offline page
-                        return caches.match('/offline.html');
+                        return caches.match('offline.html');
                     });
             })
     );
@@ -98,9 +99,21 @@ self.addEventListener('notificationclick', event => {
         // Just close the notification
         return;
     } else {
-        // Default action: open the app
+        // Default action: focus existing window or open new one
         event.waitUntil(
-            clients.openWindow('/')
+            clients.matchAll({type: 'window', includeUncontrolled: true})
+                .then(clientList => {
+                    // Check if there's already a tab open
+                    for (const client of clientList) {
+                        if (client.url.includes('index.html') && 'focus' in client) {
+                            return client.focus();
+                        }
+                    }
+                    // If not, open a new one
+                    if (clients.openWindow) {
+                        return clients.openWindow('index.html');
+                    }
+                })
         );
     }
 });
@@ -111,8 +124,9 @@ self.addEventListener('push', event => {
     
     const options = {
         body: event.data ? event.data.text() : 'Notifikasi baru dari Ruble Laundry',
-        icon: '/images/icons/icon-192x192.png',
-        badge: '/images/icons/icon-192x192.png',
+        icon: 'images/icons/icon-192x192.png',
+        badge: 'images/icons/icon-192x192.png',
+        sound: 'sounds/notification.mp3',
         vibrate: [200, 100, 200],
         tag: 'ruble-push',
         requireInteraction: false
