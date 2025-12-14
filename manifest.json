@@ -1,0 +1,34 @@
+{
+    "name": "Ruble Laundry - Layanan Laundry Terpercaya",
+    "short_name": "Ruble Laundry",
+    "description": "Layanan laundry profesional dengan harga terjangkau dan kualitas terbaik",
+    "start_url": "index.html",
+    "display": "standalone",
+    "background_color": "#ffffff",
+    "theme_color": "#1e40af",
+    "orientation": "portrait-primary",
+    "icons": [
+        {
+            "src": "images/icons/icon-192x192.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "any maskable"
+        },
+        {
+            "src": "images/icons/icon-512x512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "any maskable"
+        }
+    ],
+    "categories": ["business", "lifestyle"],
+    "shortcuts": [
+        {
+            "name": "Hubungi Kami",
+            "short_name": "Kontak",
+            "description": "Hubungi Ruble Laundry",
+            "url": "index.html#contact",
+            "icons": [{ "src": "images/icons/icon-192x192.png", "sizes": "192x192" }]
+        }
+    ]
+}

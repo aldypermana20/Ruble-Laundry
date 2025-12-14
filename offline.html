@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Offline - Ruble Laundry</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .offline-container {
+            background: white;
+            padding: 3rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            max-width: 500px;
+        }
+
+        .offline-icon {
+            font-size: 5rem;
+            margin-bottom: 1rem;
+        }
+
+        h1 {
+            color: #1e40af;
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        p {
+            color: #6b7280;
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 2rem;
+        }
+
+        .info-box {
+            background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+            padding: 1.5rem;
+            border-radius: 12px;
+            border: 2px solid #bfdbfe;
+            margin-top: 2rem;
+        }
+
+        .info-box h2 {
+            color: #1e40af;
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .info-box p {
+            color: #4b5563;
+            font-size: 0.95rem;
+            margin-bottom: 0;
+        }
+
+        .retry-btn {
+            background: linear-gradient(135deg, #3b82f6 0%, #1e40af 100%);
+            color: white;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .retry-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(59, 130, 246, 0.4);
+        }
+
+        .contact-info {
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 2px solid #e5e7eb;
+        }
+
+        .contact-info p {
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="offline-container">
+        <div class="offline-icon">📡</div>
+        <h1>Anda Sedang Offline</h1>
+        <p>Maaf, koneksi internet Anda terputus. Halaman yang Anda cari tidak tersedia dalam cache offline.</p>
+        
+        <button class="retry-btn" onclick="window.location.href='index.html'">
+            Kembali ke Halaman Utama
+        </button>
+
+        <div class="info-box">
+            <h2>💡 Info</h2>
+            <p>Beberapa halaman yang sudah Anda kunjungi mungkin masih bisa diakses secara offline.</p>
+        </div>
+
+        <div class="contact-info">
+            <p><strong>Hubungi Kami:</strong></p>
+            <p>📱 WhatsApp: 0812-3456-7890</p>
+            <p>📍 Jl. Contoh No. 123, Bandung</p>
+        </div>
+    </div>
+
+    <script>
+        // Auto-retry when online
+        window.addEventListener('online', () => {
+            location.reload();
+        });
+    </script>
+</body>
+</html>
